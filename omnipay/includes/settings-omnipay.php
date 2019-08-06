@@ -2,8 +2,6 @@
 
 defined('ABSPATH') || exit;
 
-require_once __DIR__ . '/bank-details.php';
-
 $settings = array(
     'title' => array(
         'title' => __('Title', 'woocommerce'),
@@ -27,19 +25,19 @@ $settings = array(
         'desc_tip'    => true,
     ),
     'fee' => array(
-        'title' => __('Fee', 'woocommerce'),
-        'type' => 'number',
+        'title' => __('Fee %', 'woocommerce'),
+        'type' => 'decimal',
         'desc_tip' => true,
         'description' => __('Fee (dalam persen) yang akan ditambahkan pada order total', 'woocommerce'),
         'default' => 0,
     ),
-    'expiry_minutes' => array(
-        'title' => __('Expired (minute)', 'woocommerce'),
-        'type' => 'number',
-        'description' => __('Waktu dalam menit sampai dengan nomor virtual account tidak berlaku lagi (1 hari adalah 1440 menit)', 'woocommerce'),
-        'default' => 2880,
-        'desc_tip' => true,
-    ),
+//    'expiry_minutes' => array(
+//        'title' => __('Expired (minute)', 'woocommerce'),
+//        'type' => 'number',
+//        'description' => __('Waktu dalam menit sampai dengan nomor virtual account tidak berlaku lagi (1 hari adalah 1440 menit)', 'woocommerce'),
+//        'default' => 2880,
+//        'desc_tip' => true,
+//    ),
     'merchant_id' => array(
         'title' => __('Merchant ID', 'woocommerce'),
         'type' => 'text',

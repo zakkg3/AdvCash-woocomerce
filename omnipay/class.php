@@ -185,9 +185,23 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
                 echo wpautop(wptexturize($description)); // @codingStandardsIgnoreLine.
             }
 
-            ?>
-            <p><?= $description ?></p>
-            <?php
+            if ($this->settings['fee']) {
+                $total = $this->get_order_total();
+                if ($total > 0) {
+                    $fee = ceil($this->settings['fee'] / 100.0 * $total);
+                    $grandTotal = $total + $fee;
+                    ?>
+                    <table>
+                        <tr>
+                            <td>Handling fee <strong><?= $this->settings['fee'] ?>%</strong></td><td><strong><?= wc_price($fee) ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Grand Total</td><td><strong><?= wc_price($grandTotal) ?></strong></td>
+                        </tr>
+                    </table>
+                    <?php
+                }
+            }
         }
 
         /**
@@ -200,15 +214,34 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
         {
             $order = wc_get_order($order_id);
 
-            $amount = $order->get_total() * (1.0 + (($this->settings['fee'] ? $this->settings['fee'] : 0) / 100.0));
+            $amount = ceil($order->get_total() * (1.0 + (($this->settings['fee'] ? $this->settings['fee'] : 0) / 100.0)));
             $invoiceid = $order->get_id();
             $bill_name = $order->get_formatted_billing_full_name();
             $bill_email = $order->get_billing_email();
             $bill_mobile = $order->get_billing_phone();
             $bill_desc = get_bloginfo('name') . ' Order: ' . $order_id;
-            $expiry_minute = $this->settings['expiry_minutes'] ? $this->settings['expiry_minutes'] : 2880; // default to two days..
 
-            $omnipay_cc_link = '';
+            $returnurl = get_site_url() . "?wc-api=omnipay-cc-id&oid=$invoiceid";
+
+            $merchant_id = $this->settings['merchant_id'];
+            $verify_key = $this->settings['verify_key'];
+
+            $vcode = md5($amount . $merchant_id . $order_id . $verify_key);
+
+            $url = "https://secure.omnipay.co.id/OmniPay/pay/$merchant_id/?";
+
+            $url .= 'amount=' . urlencode($amount);
+            $url .= '&cur=IDR';
+            $url .= '&orderid=' . urlencode($invoiceid);
+            $url .= '&bill_name=' . urlencode($bill_name);
+            $url .= '&bill_email=' . urlencode($bill_email);
+            $url .= '&bill_mobile=' . urlencode($bill_mobile);
+            $url .= '&bill_desc=' . urlencode($bill_desc);
+            $url .= '&country=ID';
+            $url .= '&returnurl=' . urlencode($returnurl);
+            $url .= '&vcode=' . urlencode($vcode);
+
+            $omnipay_cc_link = $url;
 
             // save the va numbers..
             update_post_meta($order->get_id(), 'omnipay_cc_link', $omnipay_cc_link);
@@ -250,7 +283,7 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
                 if ($instruction) {
                     echo wp_kses_post(wpautop(wptexturize(wp_kses_post($instruction))));
                 }
-                $this->cc_details($order->get_id(), $instruction);
+                $this->cc_details($order->get_id());
             }
 
         }
@@ -263,11 +296,11 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
                 if ($instruction) {
                     echo wp_kses_post(wpautop(wptexturize(wp_kses_post($instruction))));
                 }
-                $this->cc_details($order_id, $instruction);
+                $this->cc_details($order_id);
             }
         }
 
-        public function cc_details($order_id, $instruction)
+        public function cc_details($order_id)
         {
             // Get order and store in $order.
             $order = wc_get_order($order_id);
@@ -279,7 +312,7 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
                 <h2>Credit Card Payment</h2>
                 <p>Please Click the link bellow to make the payment</p>
                 <p>
-                    <a href="<?=$omnipay_cc_link?>">Pay Now</a>
+                    <a href="<?= $omnipay_cc_link ?>">Pay Now</a>
                 </p>
             </section>
             <?php
