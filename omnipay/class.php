@@ -164,6 +164,7 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
                 <div class="inline error">
                     <p>
                         <strong><?php esc_html_e('Gateway disabled', 'woocommerce'); ?></strong>: <?php esc_html_e('OmniPay does not support your store currency.', 'woocommerce'); ?>
+                        <?php esc_html_e(get_woocommerce_currency())?>
                     </p>
                 </div>
                 <?php
