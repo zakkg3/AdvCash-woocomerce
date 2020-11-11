@@ -144,7 +144,7 @@ if (!class_exists('\WooOmniPayIDCC\OmnipayCC')) {
         {
             return in_array(
                 get_woocommerce_currency(),
-                array('IDR'),
+                array('USD'),
                 true
             );
         }
