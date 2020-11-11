@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WooCommerce OmniPay.id CC
-Description: Credit Card Payment Gateway OmniPay.ID for WooCommerce
+Plugin Name: ADVcash woocomerce payment
+Description: Credit Card Payment Gateway ADVcash for WooCommerce
 Author: Nicolas Kowenski
 Version: 1.0.0
-Author URI: http://omnipay.co.id/developer
+Author URI: https://flag5.com
 URL:
 */
 
