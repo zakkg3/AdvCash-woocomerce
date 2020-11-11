@@ -6,7 +6,7 @@ $settings = array(
     'title' => array(
         'title' => __('Title', 'woocommerce'),
         'type' => 'text',
-        'description' => __('Judul yang ditampilkan saat user melakukan checkout.', 'woocommerce'),
+        'description' => __('The title that is displayed when the user checkout.', 'woocommerce'),
         'default' => __('OmniPay Credit Card', 'woocommerce'),
         'desc_tip' => true,
     ),
@@ -14,13 +14,13 @@ $settings = array(
         'title' => __('Description', 'woocommerce'),
         'type' => 'text',
         'desc_tip' => true,
-        'description' => __('Deskripsi yang ditampilkan pada saat checkout.', 'woocommerce'),
-        'default' => __("Pembayaran melalui Credit Card", 'woocommerce'),
+        'description' => __('Description shown at checkout.', 'woocommerce'),
+        'default' => __("Credit Card payment", 'woocommerce'),
     ),
     'instructions'    => array(
         'title'       => __( 'Instruksi', 'woocommerce' ),
         'type'        => 'textarea',
-        'description' => __( 'Instruksi mengenai cara bayar yang akan diperlihatkan di halaman "thank you" dan "email".', 'woocommerce' ),
+        'description' => __( 'Instructions on how to pay will be shown on the "thank you" and "email" pages.', 'woocommerce' ),
         'default'     => '',
         'desc_tip'    => true,
     ),
@@ -28,7 +28,7 @@ $settings = array(
         'title' => __('Fee %', 'woocommerce'),
         'type' => 'decimal',
         'desc_tip' => true,
-        'description' => __('Fee (dalam persen) yang akan ditambahkan pada order total', 'woocommerce'),
+        'description' => __('Fee (in percent) to be added to the total order', 'woocommerce'),
         'default' => 0,
     ),
 //    'expiry_minutes' => array(
@@ -48,7 +48,7 @@ $settings = array(
     'verify_key' => array(
         'title' => __('Verify Key', 'woocommerce'),
         'type' => 'password',
-        'description' => __('Verify Key diperlukan untuk keamanan notifikasi pembayaran', 'woocommerce'),
+        'description' => __('Verify Key is required for payment notification security', 'woocommerce'),
         'default' => __('', 'woocommerce'),
         'desc_tip' => true,
     ),
